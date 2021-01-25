@@ -16,6 +16,9 @@
         /// </summary>
         public bool EmitDocumentation = true;
         
+        /// <summary>
+        /// Creates models without any namespaces.
+        /// </summary>
         public bool IgnoreNamespaces = false; // ignores namespace in emissions
     }
 }
