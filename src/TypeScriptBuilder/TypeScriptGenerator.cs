@@ -79,7 +79,7 @@ namespace TypeScriptBuilder
                 case TypeCode.String:
                     return "string";
                 case TypeCode.DateTime:
-                    return "Date";
+                    return "string"; //TODO: Might be a setting in the future? Changed from Date -> string since dates serialized as json would be a string.
                 case TypeCode.Object:
                     if (type.IsArray)
                         return TypeName(type.GetElementType()) + "[]";
