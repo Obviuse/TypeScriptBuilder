@@ -95,5 +95,10 @@
             Creates models without any namespaces.
             </summary>
         </member>
+        <member name="F:TypeScriptBuilder.TypeScriptGeneratorOptions.DatesAsString">
+            <summary>
+            Use this to have dates typed as string. Useful since JSON-serialization of C# DateTime will be a string.
+            </summary>
+        </member>
     </members>
 </doc>

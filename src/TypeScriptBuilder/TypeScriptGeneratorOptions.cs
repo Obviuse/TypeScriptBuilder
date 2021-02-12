@@ -20,5 +20,11 @@
         /// Creates models without any namespaces.
         /// </summary>
         public bool IgnoreNamespaces = false; // ignores namespace in emissions
+
+        /// <summary>
+        /// Use this to have dates typed as string. Useful since JSON-serialization of C# DateTime will be a string.
+        /// </summary>
+        public bool DatesAsString = false;
+
     }
 }
