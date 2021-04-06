@@ -109,9 +109,16 @@ namespace TypeScriptBuilder
                             return "{}";
                         }
 
-                        // any other enumerable
-                        if (genericType.GetInterfaces().Any(e => e.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
-                            return TypeName(generics[0]) + "[]";
+                        try
+                        {
+                            // any other enumerable
+                            if (genericType.GetInterfaces().Any(e => e.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
+                                return TypeName(generics[0]) + "[]";
+                        }
+                        catch (Exception e)
+                        {
+                            return "any";
+                        }
 
                         AddCSType(genericType);
 
@@ -180,7 +187,12 @@ namespace TypeScriptBuilder
                 baseType = ti.BaseType;
 
             if (ti.IsClass && !flat && baseType != null && baseType != typeof(object))
-                Builder.AppendLine($" extends {TypeName(baseType)}");
+            {
+                var typeName = TypeName(baseType);
+                if(typeName != "any")
+                    Builder.AppendLine($" extends {typeName}");
+            }
+                
 
             Builder.OpenScope();
 

@@ -17,7 +17,8 @@ namespace Test
 
             builder
                 .ExcludeType(typeof(Program))
-                .AddCSType(typeof(Poco));
+                //.AddCSType(typeof(Poco))
+                .AddCSType(typeof(GetCookiesForWebsiteQuery));
                 //.AddCSType(typeof(TestA.Employee));
                 //.AddCSType(typeof(TestA.Equipment))
                 //.AddCSType(typeof(TestB.Strange<>));
