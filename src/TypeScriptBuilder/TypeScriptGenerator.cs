@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 
 namespace TypeScriptBuilder
@@ -174,12 +175,12 @@ namespace TypeScriptBuilder
                 foreach (var e in Enum.GetValues(type))
                 {
                     var field = type.GetField(e.ToString());
-                    var dn = field.GetCustomAttribute<DisplayNameAttribute>();
+                    var dn = field.GetCustomAttribute<EnumMemberAttribute>();
 
                     if(dn != null)
                     {
-                        Console.WriteLine(dn.DisplayName);
-                        Builder.AppendLine($"{e} = '{dn.DisplayName}',");
+                        Console.WriteLine(dn.Value);
+                        Builder.AppendLine($"{e} = '{dn.Value}',");
                     }
                     else
                     {
