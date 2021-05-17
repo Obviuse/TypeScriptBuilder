@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -171,7 +172,21 @@ namespace TypeScriptBuilder
                 Builder.OpenScope();
 
                 foreach (var e in Enum.GetValues(type))
-                    Builder.AppendLine($"{e} = {Convert.ToInt32(e)},");
+                {
+                    var field = type.GetField(e.ToString());
+                    var dn = field.GetCustomAttribute<DisplayNameAttribute>();
+
+                    if(dn != null)
+                    {
+                        Console.WriteLine(dn.DisplayName);
+                        Builder.AppendLine($"{e} = '{dn.DisplayName}',");
+                    }
+                    else
+                    {
+                        Builder.AppendLine($"{e} = {Convert.ToInt32(e)},");    
+                    }
+                    
+                }
 
                 Builder.CloseScope();
                 return;

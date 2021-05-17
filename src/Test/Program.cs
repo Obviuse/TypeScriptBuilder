@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using TestA;
 using TypeScriptBuilder;
 
@@ -18,18 +22,68 @@ namespace Test
             builder
                 .ExcludeType(typeof(Program))
                 //.AddCSType(typeof(Poco))
-                .AddCSType(typeof(GetCookiesForWebsiteQuery));
+                .AddCSType(typeof(FakeStateImplicit))
+                .AddCSType(typeof(FakeStateExplicitNumber))
+                .AddCSType(typeof(FakeStateExplicitString));
+                //.AddCSType(typeof(GetCookiesForWebsiteQuery));
                 //.AddCSType(typeof(TestA.Employee));
                 //.AddCSType(typeof(TestA.Equipment))
                 //.AddCSType(typeof(TestB.Strange<>));
 
             builder.Store("Test.ts");
+
+            var jsonTest = new EntityWithEnum();
+            jsonTest.Name = "Markus";
+            jsonTest.State = FakeStateExplicitString.Three;
+
+            var res = JsonConvert.SerializeObject(jsonTest);
+            Console.WriteLine("Converted: " + res);
+
+            var des = JsonConvert.DeserializeObject<EntityWithEnum>(res);
+            Console.WriteLine(des.State);
+
+            //Console.ReadLine();
+
         }
     }
 }
 
 namespace TestA
 {
+    public class EntityWithEnum
+    {
+        [JsonConverter(typeof(StringEnumConverter))]
+        public FakeStateExplicitString State { get; set; }
+
+        public string Name { get; set; }
+    }
+
+    public enum FakeStateImplicit
+    {
+        First,
+        Middle,
+        Last
+    }
+
+    public enum FakeStateExplicitNumber
+    {
+        First,
+        Middle,
+        Last
+    }
+
+    public enum FakeStateExplicitString
+    {
+        [EnumMember(Value = "one")]
+        One,
+
+        [EnumMember(Value = "two")]
+        Two,
+
+        [EnumMember(Value = "three123")]
+        Three,
+    }
+
 
     /// <summary>
     /// A Poco or Plain Old Csharp Object
